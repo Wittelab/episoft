@@ -1,4 +1,5 @@
-Welcome to episoft, SAS IML code for epidemiologic analysis by two-stage semi- or empirical-Bayes hierarchical modeling.
+#Episoft
+SAS IML code for epidemiologic analysis by two-stage semi- or empirical-Bayes hierarchical modeling.
 
 ## Purpose
 The purpose of this site is to distribute SAS IML code for epidemiologic analysis by two-stage semi- or empirical-Bayes hierarchical modeling.  This site complements the manuscript "Software for hierarchical modeling of epidemiolgic data" (Witte et al., Epidemiology 1998;9:563-566).  In particular, we expand on the paper's Appendix, providing SAS IML code corresponding to the diet and breast cancer application first presented in Witte et al. (Epidemiology 1994; 5:612-621).
