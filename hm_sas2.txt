@@ -1,0 +1,197 @@
+/* SAS IML code for example epidemiologic hierarchical modeling using empirical-
+Bayes or semi-Bayes estimation.  This code prints hierarchical modeling 
+estimates of odds ratios and 95% confidence intervals.  The following SAS IML 
+datasets are input:
+
+b       =       vector of estimated coefficients (1st-stage parameter estimates),
+v       =       estimated covariance matrix for b,
+z       =       prior design matrix (here nutrient levels of foods),
+t2      =       prior variance for semi-Bayes estimation (vector), or set all
+		    elements = 0 if prior variance is to be estimated,
+bnames =        vector of names associated with the first-stage parameters. */
+
+options ls=80;
+
+data one1;
+infile 'a:\S.TXT';
+input s;
+code=_n_;
+run;
+
+data one;
+infile 'a:\BB.TXT';
+input b;
+code=_n_;
+run;
+
+data two;
+infile 'a:\BBCOV.TXT';
+input c1 c2 c3 c4 c5 c6 c7 c8 c9 c10
+ c11 c12 c13 c14 c15 c16 c17 c18 c19 c20
+ c21 c22 c23 c24 c25 c26 c27 c28 c29 c30
+ c31 c32 c33 c34 c35 c36 c37 c38 c39 c40
+ c41 c42 c43 c44 c45 c46 c47 c48 c49 c50
+ c51 c52 c53 c54 c55 c56 c57 c58 c59 c60
+ c61 c62 c63 c64 c65 c66 c67 c68 c69 c70
+ c71 c72 c73 c74 c75 c76 c77 c78 c79 c80
+ c81 c82 c83 c84 c85 c86 c87
+;
+code=_n_;
+run;
+
+data three;
+infile 'a:\ZMATRIX2.TXT';
+input z1 z2 z3 z4 z5 z6 z7 z8 z9 z10
+z11 z12 z13 z14 z15 z16 z17 z18 z19 z20
+z21 z22 z23 z24 z25 z26 z27 z28 z29 z30
+z31 z32 z33 z34 z35 z36
+;
+code=_n_;
+run;
+
+data four;
+infile 'a:\TAU2.TXT';
+input t2;
+code=_n_;
+run;
+
+data five;
+merge one1 one two three four;
+by code;
+run;
+
+/*---------- STARTING IML PROCEDURE----------------------------- */
+
+/*----- READING IN DATA INTO IML PROCEDURE ------*/
+
+proc iml;
+use five;
+read all var {s};
+read all var {b};
+read all var {z1 z2 z3 z4 z5 z6 z7 z8 z9 z10
+z11 z12 z13 z14 z15 z16 z17 z18 z19 z20
+z21 z22 z23 z24 z25 z26 z27 z28 z29 z30
+z31 z32 z33 z34 z35 z36} into Z;
+read all var {c1 c2 c3 c4 c5 c6 c7 c8 c9 c10
+ c11 c12 c13 c14 c15 c16 c17 c18 c19 c20
+ c21 c22 c23 c24 c25 c26 c27 c28 c29 c30
+ c31 c32 c33 c34 c35 c36 c37 c38 c39 c40
+ c41 c42 c43 c44 c45 c46 c47 c48 c49 c50
+ c51 c52 c53 c54 c55 c56 c57 c58 c59 c60
+ c61 c62 c63 c64 c65 c66 c67 c68 c69 c70
+ c71 c72 c73 c74 c75 c76 c77 c78 c79 c80
+ c81 c82 c83 c84 c85 c86 c87} into v;
+read all var {t2};
+
+bnames= {'skimmilk', 'milk', 'cream', 'sherbet', 'icecream', 'yogurt',
+       'cottage_cheese', 'cheese', 'margerine', 'butter', 'raisins',
+       'bananas', 'cantaloupe', 'watermelon', 'apples', 'apple_juice',
+       'oranges', 'orange_juice', 'grapefruit', 'grapefruit_juice',
+       'strawberry', 'blueberry', 'peaches', 'tomatoes', 'tofu',
+       'greenbeans', 'broccoli', 'cabbageec', 'brussels', 'carrots',
+       'corn', 'peas', 'mixed_veges', 'beans', 'yellow_sq', 'eggplant',
+       'yams', 'spinach', 'iceberg_lettuce', 'romaine_lettuce', 'celery',
+       'beets', 'eggs', 'chickens', 'chickenn', 'processe', 'hotdogs',
+       'liver', 'beef', 'tunafish', 'darkfish', 'otherfish', 'shrimp',
+       'cereal', 'oatmeal', 'white_brd', 'dark_brd', 'muffins', 'brown_rice',
+       'white_rice', 'pasta', 'pancakes', 'french_fries', 'potatoes',
+       'crackers', 'pizza', 'local_co', 'cola', 'punch', 'decaffei',
+       'coffee', 'tea', 'beer', 'red_wine', 'white_wine', 'liquor',
+       'chocolate', 'cookiesb', 'cake&pas', 'pie', 'nuts', 'popcorn',
+       'bran', 'chowder', 'oil&vi', 'mayonaise', 'sugar'};
+
+bnames2 = {'intercept', 'calories', 'protein', 'carbohydrate', 'sugars',
+         'shortca', 'longchai', 'transfat', 'omega_3', 'omega_6',
+         'dietary_f', 'cholesterol', 'phytate', 'methioni', 'choline',
+         'folate', 'vitamin_B12', 'vitamin_D', 'calcium', 'beta_car',
+         'retinol', 'vitamin_C', 'vitamin_E', 'selenium', 'manganes',
+         'zinc', 'copper', 'iron', 'caffeine', 'alcohol', 'nitrate',
+         'aflatoxin', 'PAH', 'phytoest', 'protease', 'carcpoll'};
+
+/*------------------------------------------------------------------------*/
+/* MAIN BODY OF PROGRAM                                                   */
+/*------------------------------------------------------------------------*/
+
+/* Initialize variables: */
+np=nrow(Z);
+ncol=ncol(Z);                   /* Number of first-stage parameters. */
+df2=np-ncol(Z);Inp=I(np);       /* Second-stage degrees of freedom. */
+max_c=50; count=0;              /* Maximum number and count of iterations. */
+if t2[1]=0 then t2pass=0;       /* Empirical-Bayes estimation. */
+   else t2pass=1;               /* Else, semi-Bayes estimation. */
+criter = .0005;cnv=0;           /* Convergence criterion for t2.*/
+
+print np " first stage coefficients were read into the program.",
+      "There are " ncol " second stage covariates in the model." /;
+
+/* Undertake second-stage regression: */
+do until (cnv | count=max_c); count=count+1;
+w=inv(v+t2#Inp); wv=w*v; wz=w*z; /* Weight matrix. */
+ws=sum(w);
+vs=inv(t(Z)*w*Z);               /* Invert 2nd-stage information. */
+bs=vs*(t(wz)*b);                /* 2nd-stage coefficient estimates. */
+e=b-(Z*bs);                     /* Residual from 2nd-stage estimates. */
+rsst=t(e)*w*e;                  /* Total residual sums of squares. */
+rms=np*rsst/(df2*ws);           /* Residual mean square. */
+t2old=t2; if t2pass=0           /* Update t2 for empirical Bayes. */
+then t2=max(rms-sum(wv)/ws, 0);
+if (abs(t2-t2old) <= criter)
+then cnv = 1;                   /* Test for convergence. */
+end;
+
+
+/* Calculate posterior expectations of 1st-stage parameters: */
+if t2pass=0 then                /* Weight for prior expectations of */
+wvc=((df2-2)/df2)*wv;           /* the first-stage parameters, using */
+else wvc=wv;                    /* curvature correction for EB. */
+hatw=Z*vs*t(wz);                /* Projection of b to prior mean. */
+st2=sqrt(t2*t(t2));
+hatp=wvc*hatw + w#st2 + (wv-wvc); /* Projection of b to posterior mean. */
+vp=v-t(wvc)*(Inp-hatw)*v;          /* Estimated posterior covariance. */
+npa=trace(hatp);                /* Approx df in hierarchical model. */
+bp=hatp*b;                      /* Estimated posterior mean. */
+
+/* Add variance component due to estimation of the prior variance: */
+if t2pass=0 then do;
+wvce=wvc*(e#(sqrt((sum(wv)/ws + t2)/(vecdiag(v)+t2))));
+vp=vp+(2/(df2-2))*wvce*t(wvce);
+end;
+
+/* Check for fitting problems: */
+if count>=max_c then
+print "Empirical-Bayes did not converge.";
+if (t2=0 && t2pass=0) then
+print "Potential underdispersion: t2 set to zero. Please consider Semi-Bayes.";
+varvp=vecdiag(vp);
+varvs=vecdiag(v);
+do i=1 to np;
+if varvp[i]<0 then do ;
+print "Negative second-stage variance: set to zero.";
+varvp[i]=0;
+end;
+end;
+
+/* Calculate confidence intervals for estimates: */
+stderr2=b;
+bn=b;
+do i=1 to np;
+stderr2[i]=sqrt(varvs[i])*s[i];
+bn[i]=b[i]*s[i];
+end;
+ups=exp(bn+1.96*stderr2); lows=exp(bn-1.96*stderr2);
+obps=exp(bn);
+
+stderr=b;
+bpn=b;
+do i=1 to np;
+stderr[i]=sqrt(varvp[i])*s[i];
+bpn[i]=bp[i]*s[i];
+end;
+up=exp(bpn+1.96*stderr); low=exp(bpn-1.96*stderr);
+obp=exp(bpn);
+
+/* Print results: */
+print "                   Odds Ratios and 95% CIs",
+"            Conventional             Hierarchical",
+bnames[format=8.2] obps[format=8.2] lows[format=8.2] ups[format=6.2]
+obp[format=10.2] low[format=8.2] up[format=6.2];

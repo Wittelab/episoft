@@ -1,0 +1,107 @@
+<html>
+
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=windows-1252">
+<title>episoft</title>
+<meta name="GENERATOR" content="Microsoft FrontPage 6.0">
+<meta name="ProgId" content="FrontPage.Editor.Document">
+<meta name="Microsoft Border" content="tl, default">
+</head>
+
+<body><!--msnavigation--><table border="0" cellpadding="0" cellspacing="0" width="100%"><tr><td>
+
+<p align="center">&nbsp;</p>
+
+</td></tr><!--msnavigation--></table><!--msnavigation--><table dir="ltr" border="0" cellpadding="0" cellspacing="0" width="100%"><tr><td valign="top" width="1%">
+
+<p><font face="Arial" size="2"><nobr><a href="index.html">Home</a></nobr><br>
+<a href="lab.htm">Lab Members</a><br>
+<nobr><a href="research.htm">Research</a></nobr><br>
+<nobr><a href="software.htm">Software</a></nobr><br>
+<nobr><a href="teaching.htm">Teaching</a></nobr><br>
+<nobr><a href="biosketch.htm">Biosketch</a></nobr><br>
+<nobr><a href="personal_info2.htm">Personal&nbsp;Info</a></nobr></font>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</p>
+<hr>
+<p><font face="Arial" size="2">John S. Witte&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+<br>
+</font><span style="font-family: Arial;"><font size="2">Professor of
+<a style="color: blue; text-decoration: underline;" href="http://www.epibiostat.ucsf.edu/epidem/personnel/jwitte2.html">
+Epidemiology &amp; Biostatistics</a> and Urology</font></span></p>
+<p class="MsoNormal" style="margin: 0in 0in 0.0001pt; font-family: Arial;">
+<font size="2">Associate Director</font></p>
+<p class="MsoNormal" style="margin: 0in 0in 0.0001pt; font-family: Arial;">
+<a href="http://humgen.medschool.ucsf.edu"><font size="2">Institute for Human 
+Genetics</font></a></p>
+<p class="MsoNormal" style="margin: 0in 0in 0.0001pt; font-family: Arial;">
+<font size="2">Head, Division of Cancer Epidemiology</font></p>
+<p class="MsoNormal" style="margin: 0in 0in 0.0001pt; font-family: Arial;">
+<font size="2">Co-Leader, <a href="http://cancer.ucsf.edu/research/genetics.php">
+Program in Cancer Genetics</a></font>,<span style="font-family: Arial"> </span>
+<span style="font-size: 10.0pt; font-family: Arial">Helen Diller Family 
+Comprehensive Cancer Center</span></p>
+<p class="MsoNormal" style="margin: 0in 0in 0.0001pt; font-family: Arial;">&nbsp;</p>
+<p class="MsoNormal" style="margin: 0in 0in 0.0001pt; font-family: Arial;">
+<font size="2">UC San Francisco</font></p>
+<p class="MsoNormal" style="margin: 0in 0in 0.0001pt; font-family: Arial;">
+<span style="font-size: 10.0pt; font-family: Arial">Diller Bldg, Room 388&nbsp; <br>
+1450 3rd Street<br>
+San Francisco, CA 94158</span></p>
+<p class="MsoNormal" style="margin: 0in 0in 0.0001pt; font-family: Arial;">
+<font size="2">(UCSF Internal Box: 3110)</font></p>
+<p class="MsoNormal" style="margin: 0in 0in 0.0001pt; font-family: Arial;">
+<font size="2"><a href="mailto:jwitte@ucsf.edu">jwitte@ucsf.edu</a></font></p>
+<p class="MsoNormal" style="margin: 0in 0in 0.0001pt; font-family: Arial;">
+<font size="2">415-502-6882</font></p>
+
+</td><td valign="top" width="24"></td><!--msnavigation--><td valign="top">
+<div align="center">
+	<div align="left">
+
+<pre><big><strong><big><font size="2" face="Arial">Software for Hierarchical Modeling of Epidemiologic Data </font></big></strong></big></pre>
+	</div>
+</div>
+
+<hr>
+
+<p><font face="Arial" size="2">The purpose of this site is to distribute SAS IML code for epidemiologic analysis by
+two-stage semi- or empirical-Bayes hierarchical modeling.&nbsp; This site complements the
+manuscript &quot;Software for hierarchical modeling of epidemiolgic data&quot; (Witte
+et al., <a href="http://www.wwilkins.com/EDE/index.html">Epidemiology</a>
+1998;9:563-566).&nbsp; In particular, we expand on the paper's Appendix, providing SAS IML
+<a href="hm_sas2.txt">code</a> corresponding to the diet and breast cancer application first
+presented in Witte et al. (Epidemiology 1994; 5:612-621).</font></p>
+
+<p><font face="Arial" size="2">To use this code, one inputs conventional coefficient and covariance-matrix estimates
+(e.g., from any logistic software package) and second-stage data (i.e., the second-stage
+design matrix Z, and, if semi-Bayes, pre-specified second-stage variance values).
+&nbsp; As currently written, the code allows one to reproduce our diet and breast cancer
+hierarchical modeling analysis.&nbsp; Hence, in addition to the code, we give the
+conventional logistic regression <a href="bb.txt">coefficients</a> and corresponding <a
+href="bbcov.txt">covariance</a> matrix, as well as the second-stage <a href="zmatrix2.txt">design
+matrix</a> and second-stage variance (<a href="tau2.txt">tau^2</a>) values. 
+</font> </p>
+
+<hr>
+
+<p><font face="Arial" size="2">To undertake hierarchical modeling with this SAS code and data, follow these steps: 
+</font> </p>
+
+<ul>
+	<li><font face="Arial" size="2">Download:&nbsp;&nbsp;&nbsp; </font>
+	<ul>
+		<li><font face="Arial" size="2">code &quot;<a href="hm_sas2.txt">hm_sas2.txt</a>&quot;</font></li>
+		<li><font face="Arial" size="2">first-stage coefficient estimates &quot;<a href="bb.txt">bb.txt</a>&quot;</font></li>
+		<li><font face="Arial" size="2">first-stage covariance matrix &quot;<a href="bbcov.txt">bbcov.txt</a>&quot;</font></li>
+		<li><font face="Arial" size="2">second-stage design matrix &quot;<a href="zmatrix2.txt">zmatrix2.txt</a>&quot;</font></li>
+		<li><font face="Arial" size="2">second-stage variance values &quot;<a href="tau2.txt">tau2.txt</a>&quot;</font></li>
+		<li><font face="Arial" size="2">a
+    vector of unit increases &quot;<a href="s.txt">s.txt</a>&quot;.</font></li>
+	</ul>
+	</li>
+	<li><font face="Arial" size="2">Run the program in SAS.</font></li>
+</ul>
+
+&nbsp;<!--msnavigation--></td></tr><!--msnavigation--></table></body>
+
+</html>
